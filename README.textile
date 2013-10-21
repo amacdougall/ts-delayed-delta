@@ -1,5 +1,9 @@
 h1. Delayed Deltas for Thinking Sphinx
 
+This fork, at github.com/amacdougall/ts-delayed-delta, exists only to switch Delayed Deltas from DelayedJob to Resque. For that code, see the 1.1.3_resque branch.
+
+Original README continues below.
+
 h2. Installation
 
 You'll need Thinking Sphinx 1.3.0 or later, and Delayed Job as well. The latter is flagged as a dependency.
