@@ -23,3 +23,6 @@ Gemfile.lock
 features/thinking_sphinx/database.yml
 tmp
 .bundle
+
+# GIT
+*.sw[a-p]
