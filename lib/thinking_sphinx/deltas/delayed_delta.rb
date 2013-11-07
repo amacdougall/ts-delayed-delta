@@ -1,19 +1,17 @@
-require 'delayed_job'
-
 require 'thinking_sphinx'
 require 'thinking_sphinx/deltas/delayed_delta/delta_job'
 require 'thinking_sphinx/deltas/delayed_delta/flag_as_deleted_job'
 require 'thinking_sphinx/deltas/delayed_delta/job'
 require 'thinking_sphinx/deltas/delayed_delta/version'
 
-# Delayed Deltas for Thinking Sphinx, using Delayed Job.
+# Delayed Deltas for Thinking Sphinx, using Resque.
 #
 # This documentation is aimed at those reading the code. If you're looking for
 # a guide to Thinking Sphinx and/or deltas, I recommend you start with the
 # Thinking Sphinx site instead - or the README for this library at the very
 # least.
 #
-# @author Patrick Allan
+# @author Patrick Allan, modified to use Resque by Alan MacDougall for Paperless Post
 # @see http://ts.freelancing-gods.com Thinking Sphinx
 #
 class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelta
@@ -36,17 +34,14 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
     return true if skip? instance
     return true if instance && !toggled(instance)
 
-    ThinkingSphinx::Deltas::Job.enqueue(
-      ThinkingSphinx::Deltas::DeltaJob.new(model.delta_index_names),
-      ThinkingSphinx::Configuration.instance.delayed_job_priority
-    )
+    Resque.enqueue(ThinkingSphinx::Deltas::DeltaJob, model.delta_index_names)
 
-    Delayed::Job.enqueue(
-      ThinkingSphinx::Deltas::FlagAsDeletedJob.new(
-        model.core_index_names, instance.sphinx_document_id
-      ),
-      :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority
-    ) if instance
+    # Delete from core index, since it will be in the delta index now; a full
+    # indexer run will periodically merge the delta index into core.
+    if instance
+      Resque.enqueue(ThinkingSphinx::Deltas::FlagAsDeletedJob,
+                     model.core_index_names, instance.sphinx_document_id)
+    end
 
     true
   end
