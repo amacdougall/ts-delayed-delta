@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ['pat@freelancing-gods.com']
   s.homepage    = 'http://github.com/freelancing-god/ts-delayed-delta'
   s.summary     = %q{Thinking Sphinx - Delayed Deltas}
-  s.description = %q{Manage delta indexes via Delayed Job for Thinking Sphinx}
+  s.description = %q{Manage delta indexes via Resque for Thinking Sphinx}
 
   s.rubyforge_project = 'ts-delayed-delta'
 
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'thinking-sphinx', '>= 1.3.6'
-  s.add_runtime_dependency 'delayed_job',     '>= 2.0.4'
+  s.add_runtime_dependency 'resque',     '>= 1.23.0'
 
   s.add_development_dependency 'mysql2',   '0.3.7'
   s.add_development_dependency 'yard',     '>= 0.7.2'
