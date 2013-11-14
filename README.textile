@@ -1,6 +1,6 @@
 h1. Delayed Deltas for Thinking Sphinx
 
-This fork, at github.com/amacdougall/ts-delayed-delta, exists only to switch Delayed Deltas from DelayedJob to Resque. For that code, see the 1.1.3_resque branch.
+This fork, at github.com/amacdougall/ts-delayed-delta, exists only to switch Delayed Deltas from DelayedJob to Resque and integrate it with the internal quirks of Paperless Post. For that code, see the 1.1.5 branch. **Warning:** This fork is _not_ suitable for use with any other system.
 
 Original README continues below.
 

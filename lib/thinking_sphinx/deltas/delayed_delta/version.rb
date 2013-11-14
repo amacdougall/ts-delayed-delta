@@ -1,5 +1,5 @@
 module ThinkingSphinx
   module DelayedDelta
-    Version = '1.1.4'
+    Version = '1.1.5'
   end
 end
